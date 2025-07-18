@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: demo-mcp-remote
+  main:
+    banner-mode: off
+  ai:
+    mcp:
+      server:
+        capabilities:
+          resource: false
+          prompt: false
+          completion: false
+        sse-endpoint: ${app.base-path}/sse
+        sse-message-endpoint: ${app.base-path}/mcp/message
+  #        base-url: /test
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://cognito-idp.${aws.cognito.region}.amazonaws.com/${aws.cognito.user-pool}
+          jwk-set-uri: https://cognito-idp.${aws.cognito.region}.amazonaws.com/${aws.cognito.user-pool}/.well-known/jwks.json
+  web:
+    resources:
+      add-mappings: false
+
+aws:
+  cognito:
+    region: ${AWS_COGNITO_REGION}
+    user-pool: ${AWS_COGNITO_USER_POOL}
+
+app:
+  host: http://localhost:8080
+  base-path: /test
+  allowed-origins:
+    - http://localhost:6274
